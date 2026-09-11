@@ -435,7 +435,8 @@ enum class TouchController : uint8_t {
   Gt911,
   Ft5x06,
   Gslx680,
-  Ft6336u
+  Ft6336u,
+  Cst816s
 };
 
 // Optional audio output path. Murphy M3 ships an ES8388-compatible stereo
@@ -1768,7 +1769,7 @@ constexpr BoardProfile METALIO_EINK4 = {
     2.0f,
     PIN_UNASSIGNED,
     // Touch: CST816S on SDA 39, SCL 38, INT 10, RST via TCA9555 P1.1 (P11)
-    {TouchController::None, 39, 38, 10, PIN_UNASSIGNED, 0x15, 0, 479, 0, 799, false, 0, true, false},
+    {TouchController::Cst816s, 39, 38, 10, PIN_UNASSIGNED, 0x15, 0, 479, 0, 799, false, 0, true, false},
     NO_FRONTLIGHT,
     NO_AUDIO,
     NO_LEDS,
