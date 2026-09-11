@@ -80,15 +80,18 @@
 #ifndef FREEINK_DEVICE_ONEPAGE
 #define FREEINK_DEVICE_ONEPAGE 0
 #endif
+#ifndef FREEINK_DEVICE_METALIO_EINK4
+#define FREEINK_DEVICE_METALIO_EINK4 0
+#endif
 
 // --- 2) Coherence: exactly one MCU family, at least one device ---------------
 #if !(FREEINK_DEVICE_X4 || FREEINK_DEVICE_X3 || FREEINK_DEVICE_X4PRO || FREEINK_DEVICE_X4CLASSIC ||                \
       FREEINK_DEVICE_M5 || FREEINK_DEVICE_MURPHY || FREEINK_DEVICE_DELINK || FREEINK_DEVICE_LILYGO ||             \
       FREEINK_DEVICE_M5PAPER || FREEINK_DEVICE_STICKY || FREEINK_DEVICE_PAPERMONO || FREEINK_DEVICE_PAPERS3 ||    \
       FREEINK_DEVICE_MURPHY_M4 || FREEINK_DEVICE_EEGO_A4 || FREEINK_DEVICE_WAVESHARE_EPAPER_397 ||                \
-      FREEINK_DEVICE_ONEPAGE)
+      FREEINK_DEVICE_ONEPAGE || FREEINK_DEVICE_METALIO_EINK4)
 #error \
-    "FreeInk: no device selected. Pass at least one -DFREEINK_DEVICE_<NAME> (X4, X3, X4PRO, X4CLASSIC, M5, MURPHY, DELINK, LILYGO, M5PAPER, STICKY, PAPERMONO, PAPERS3, MURPHY_M4, EEGO_A4, WAVESHARE_EPAPER_397, ONEPAGE) in your build env — see platformio.sample.ini."
+    "FreeInk: no device selected. Pass at least one -DFREEINK_DEVICE_<NAME> (X4, X3, X4PRO, X4CLASSIC, M5, MURPHY, DELINK, LILYGO, M5PAPER, STICKY, PAPERMONO, PAPERS3, MURPHY_M4, EEGO_A4, WAVESHARE_EPAPER_397, ONEPAGE, METALIO_EINK4) in your build env — see platformio.sample.ini."
 #endif
 // Each device belongs to one MCU family; a binary targets exactly one. X3/X4 are
 // ESP32-C3; M5 PaperColor/Murphy/de-link/LilyGo are ESP32-S3; M5Paper v1.1 is the
@@ -100,7 +103,7 @@
   (FREEINK_DEVICE_M5 || FREEINK_DEVICE_MURPHY || FREEINK_DEVICE_DELINK || FREEINK_DEVICE_LILYGO ||        \
    FREEINK_DEVICE_STICKY || FREEINK_DEVICE_X4PRO || FREEINK_DEVICE_X4CLASSIC || FREEINK_DEVICE_PAPERMONO || \
    FREEINK_DEVICE_PAPERS3 || FREEINK_DEVICE_MURPHY_M4 || FREEINK_DEVICE_EEGO_A4 ||                         \
-   FREEINK_DEVICE_WAVESHARE_EPAPER_397)
+   FREEINK_DEVICE_WAVESHARE_EPAPER_397 || FREEINK_DEVICE_METALIO_EINK4)
 #define FREEINK_MCU_ESP32 (FREEINK_DEVICE_M5PAPER)
 #if (FREEINK_MCU_C3 + FREEINK_MCU_C61 + FREEINK_MCU_S3 + FREEINK_MCU_ESP32) != 1
 #error \
@@ -116,7 +119,7 @@
 // references — see docs/xteink-x4pro-support.md.
 #if FREEINK_DEVICE_X4 || FREEINK_DEVICE_DELINK || FREEINK_DEVICE_STICKY || FREEINK_DEVICE_X4PRO || \
     FREEINK_DEVICE_X4CLASSIC || FREEINK_DEVICE_MURPHY_M4 || FREEINK_DEVICE_WAVESHARE_EPAPER_397 ||   \
-    FREEINK_DEVICE_ONEPAGE
+    FREEINK_DEVICE_ONEPAGE || FREEINK_DEVICE_METALIO_EINK4
 #define FREEINK_DRIVER_SSD1677 1
 #else
 #define FREEINK_DRIVER_SSD1677 0
@@ -200,7 +203,7 @@
 #define FREEINK_CAP_TOUCH                                                                               \
   (FREEINK_DEVICE_MURPHY || FREEINK_DEVICE_LILYGO || FREEINK_DEVICE_M5PAPER || FREEINK_DEVICE_STICKY || \
    FREEINK_DEVICE_X4PRO || FREEINK_DEVICE_PAPERMONO || FREEINK_DEVICE_PAPERS3 || FREEINK_DEVICE_MURPHY_M4 || \
-   FREEINK_DEVICE_EEGO_A4)
+   FREEINK_DEVICE_EEGO_A4 || FREEINK_DEVICE_METALIO_EINK4)
 #endif
 #ifndef FREEINK_CAP_FRONTLIGHT
 #define FREEINK_CAP_FRONTLIGHT                                                                        \
@@ -286,7 +289,8 @@
 #define FREEINK_CAP_RTC                                                                             \
   (FREEINK_DEVICE_X3 || FREEINK_DEVICE_STICKY || FREEINK_DEVICE_X4PRO || FREEINK_DEVICE_X4CLASSIC || \
    FREEINK_DEVICE_PAPERMONO || FREEINK_DEVICE_PAPERS3 || FREEINK_DEVICE_EEGO_A4 ||                   \
-   FREEINK_DEVICE_MURPHY_M4 || FREEINK_DEVICE_WAVESHARE_EPAPER_397 || FREEINK_DEVICE_LILYGO)
+   FREEINK_DEVICE_MURPHY_M4 || FREEINK_DEVICE_WAVESHARE_EPAPER_397 || FREEINK_DEVICE_LILYGO ||        \
+   FREEINK_DEVICE_METALIO_EINK4)
 #endif
 #ifndef FREEINK_CAP_TEMP_HUMIDITY
 #define FREEINK_CAP_TEMP_HUMIDITY (FREEINK_DEVICE_STICKY)
@@ -331,7 +335,7 @@
 #ifndef FREEINK_SD_SDMMC
 #define FREEINK_SD_SDMMC                                                                                     \
   (FREEINK_DEVICE_DELINK || FREEINK_DEVICE_X4PRO || FREEINK_DEVICE_X4CLASSIC || FREEINK_DEVICE_PAPERMONO || \
-   FREEINK_DEVICE_MURPHY_M4 || FREEINK_DEVICE_WAVESHARE_EPAPER_397)
+   FREEINK_DEVICE_MURPHY_M4 || FREEINK_DEVICE_WAVESHARE_EPAPER_397 || FREEINK_DEVICE_METALIO_EINK4)
 #endif
 
 // Serial log transport hint for consumer firmware. Boards can share the same MCU
@@ -388,6 +392,7 @@ enum class Board : uint8_t {
   EegoA4,             // EEGO Reader A4: ESP32-S3, UC8279C 768x552 SPI panel, GSLX680 touch, PCF8563 RTC
   WaveshareEpaper397,
   OnePage,              // OnePage: ESP32-C61, SSD1677 800x480 SPI panel, 4-key ADC ladder + 3 side keys
+  MetalioEInk4,         // Metalio E-Ink 4: ESP32-S3, SSD1677 480x800 SPI panel, CST816S touch, TCA9555 expander
 };
 
 // How the board reports button presses.
@@ -430,7 +435,8 @@ enum class TouchController : uint8_t {
   Gt911,
   Ft5x06,
   Gslx680,
-  Ft6336u
+  Ft6336u,
+  Cst816s
 };
 
 // Optional audio output path. Murphy M3 ships an ES8388-compatible stereo
@@ -1746,8 +1752,42 @@ constexpr BoardProfile ONEPAGE = {
     {0, 0, 0, 0},    // viewableInsets: full 800x480 panel frame
     false};          // batteryChargeStatusActiveHigh: false (low = USB present)
 
+constexpr BoardProfile METALIO_EINK4 = {
+    Board::MetalioEInk4,
+    "metalio_e_ink_4",
+    InputStyle::DigitalButtons,
+    DisplayController::SSD1677,
+    480,
+    800,
+    // Display SPI: SCLK, MOSI, CS, DC, RST, BUSY
+    {12, 11, 13, 18, 14, 6, PIN_UNASSIGNED},
+    20000000,
+    {PIN_UNASSIGNED, PIN_UNASSIGNED, PIN_UNASSIGNED, PIN_UNASSIGNED, PIN_UNASSIGNED, false, 0},
+    {PIN_UNASSIGNED, PIN_UNASSIGNED, PIN_UNASSIGNED, PIN_UNASSIGNED, PIN_UNASSIGNED, PIN_UNASSIGNED, 3, false},
+    PIN_UNASSIGNED,
+    PIN_UNASSIGNED,
+    2.0f,
+    PIN_UNASSIGNED,
+    // Touch: CST816S on SDA 39, SCL 38, INT 10, RST via TCA9555 P1.1 (P11)
+    {TouchController::Cst816s, 39, 38, 10, PIN_UNASSIGNED, 0x15, 0, 479, 0, 799, false, 0, true, false},
+    NO_FRONTLIGHT,
+    NO_AUDIO,
+    NO_LEDS,
+    MIRROR_Y,
+    {41, 42, 40, PIN_UNASSIGNED, PIN_UNASSIGNED, PIN_UNASSIGNED, 1},
+    NO_GAUGE,
+    NO_MIC,
+    {39, 38, 400000, 0x51, 0, 0, 0, RtcType::Pcf8563, ImuType::None},
+    1.2f,
+    {1, PIN_UNASSIGNED},
+    0,
+    {9, 7, 3, 7},
+    false};
+
 static_assert(ONEPAGE.displayWidth / 8 * ONEPAGE.displayHeight == 48000,
               "OnePage framebuffer must be 48,000 bytes (800/8 x 480)");
+static_assert(METALIO_EINK4.displayWidth / 8 * METALIO_EINK4.displayHeight == 48000,
+              "Metalio E-Ink 4 framebuffer must be 48,000 bytes (480/8 x 800)");
 
 // Largest framebuffer (bytes) over the devices compiled into this build, derived
 // from the profiles above. The display facade sizes its static framebuffer to
@@ -1773,13 +1813,16 @@ constexpr uint32_t MAX_FRAMEBUFFER_BYTES = cmax(
                         FREEINK_DEVICE_MURPHY_M4 ? panelBytes(MURPHY_M4) : 0u)),
               cmax(cmax(FREEINK_DEVICE_EEGO_A4 ? panelBytes(EEGO_A4) : 0u,
                         FREEINK_DEVICE_WAVESHARE_EPAPER_397 ? panelBytes(WAVESHARE_EPAPER_397) : 0u),
-                   FREEINK_DEVICE_ONEPAGE ? panelBytes(ONEPAGE) : 0u))));
+                   cmax(FREEINK_DEVICE_ONEPAGE ? panelBytes(ONEPAGE) : 0u,
+                        FREEINK_DEVICE_METALIO_EINK4 ? panelBytes(METALIO_EINK4) : 0u)))));
 
 // Compile-time default device — the profile ACTIVE starts as. With a single
 // device in the build this is the only device; with several same-MCU devices it
 // is the boot default until the consumer calls selectDevice().
 #if FREEINK_DEVICE_ONEPAGE
 constexpr BoardProfile DEFAULT_DEVICE = ONEPAGE;
+#elif FREEINK_DEVICE_METALIO_EINK4
+constexpr BoardProfile DEFAULT_DEVICE = METALIO_EINK4;
 #elif FREEINK_DEVICE_PAPERMONO
 constexpr BoardProfile DEFAULT_DEVICE = PAPER_MONO;
 #elif FREEINK_DEVICE_M5
@@ -1908,6 +1951,11 @@ inline bool selectDevice(Board which) {
       ACTIVE = ONEPAGE;
       break;
 #endif
+#if FREEINK_DEVICE_METALIO_EINK4
+    case Board::MetalioEInk4:
+      ACTIVE = METALIO_EINK4;
+      break;
+#endif
     default:
       return false;
   }
@@ -1932,6 +1980,7 @@ inline bool isEegoA4() { return ACTIVE.board == Board::EegoA4; }
 inline bool isMurphyM4() { return ACTIVE.board == Board::MurphyM4; }
 inline bool isWaveshareEpaper397() { return ACTIVE.board == Board::WaveshareEpaper397; }
 inline bool isOnePage() { return ACTIVE.board == Board::OnePage; }
+inline bool isMetalioEInk4() { return ACTIVE.board == Board::MetalioEInk4; }
 inline bool hasTouch() { return ACTIVE.touch.controller != TouchController::None; }
 inline bool hasHomeKey() { return ACTIVE.touch.hasHomeKey; }
 inline bool hasPwmFrontlight() { return ACTIVE.frontlight.gpio != PIN_UNASSIGNED || ACTIVE.frontlight.viaPm1Pwm; }
