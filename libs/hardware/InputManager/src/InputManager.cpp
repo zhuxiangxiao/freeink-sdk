@@ -1325,6 +1325,10 @@ void InputManager::beginTouch() {
     beginFt5x06();
     return;
   }
+  if (t.controller == BoardConfig::TouchController::Cst816s) {
+    beginCst816s();
+    return;
+  }
   // CHSC6x: I2C bus only. The IRQ is left unconfigured — it's a brief pulse on
   // this controller, so detection polls I2C and gates on the frame's touch bit
   // instead (see decodeChsc6xFrame / updateTouchFromIrq).
@@ -1369,6 +1373,8 @@ uint8_t InputManager::serviceTouch() {
       pollGt911(now);
     } else if (t.controller == BoardConfig::TouchController::Ft5x06) {
       pollFt5x06(now);
+    } else if (t.controller == BoardConfig::TouchController::Cst816s) {
+      pollCst816s(now);
     } else {
       updateTouchFromIrq(now, 0);  // detection polls I2C; the IRQ is unused now
       // Synthesized confirm tracks an actually-detected press, not the IRQ line.

@@ -345,6 +345,8 @@ class InputManager {
   bool readChsc6xPoint(TouchPoint& point);
   bool decodeChsc6xFrame(const uint8_t* data, size_t len, TouchPoint& point) const;
   uint16_t mapTouchAxis(uint16_t raw, uint16_t rawMin, uint16_t rawMax, uint16_t outMax) const;
+  void beginCst816s();
+  void pollCst816s(unsigned long now);
 #if FREEINK_DEVICE_EEGO_A4 || FREEINK_DEVICE_MURPHY_M4
   TouchPoint mapTouchPoint(uint16_t rawX, uint16_t rawY, unsigned long now) const;
   void updateTouchContact(const TouchPoint& point);
